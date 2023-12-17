@@ -2,7 +2,9 @@
 
 {% block content %}
 
-
+<div class="container">
+    <a href="{% url 'app_mailing:mailings_create' %}" class="btn btn-primary">Добавить рассылку</a>
+</div>
 <div class="container">
     {% for object in object_list %}
     <div class="card-deck mb-3 text-center">
