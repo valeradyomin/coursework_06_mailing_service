@@ -11,14 +11,19 @@
                 <h4 class="my-0 font-weight-normal">Рассылка номер: {{ object.id }}</h4>
             </div>
             <div class="card-body">
-                <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
                 <ul class="list-unstyled mt-3 mb-4">
                     <li>Периодичность рассылки: {{ object.frequency }}</li>
-                    <li>Статус рассылки: {{ object.status }}</li>
                     <li>Время начала рассылки: {{ object.start }}</li>
                     <li>Время завершения рассылки: {{ object.finish }}</li>
+                    <li>Статус рассылки: {{ object.status }}</li>
+                    <li>Получатели рассылки: {{ object.recipients }}</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+                <div class="btn-group">
+                    <a href="#" type="button"
+                       class="btn btn-sm btn-outline-primary">Посмотреть</a>
+                    <a href="#" type="button"
+                       class="btn btn-sm btn-outline-primary">Редактировать</a>
+                </div>
             </div>
         </div>
     </div>

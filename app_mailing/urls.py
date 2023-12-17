@@ -6,6 +6,6 @@ from app_mailing.views import MainPage, MailingSrvListView
 app_name = AppMailingConfig.name
 
 urlpatterns = [
-    # path('', MainPage.as_view(), name='home'),
-    path('', MailingSrvListView.as_view(), name='home'),
+    path('', MainPage.as_view(), name='home'),
+    path('mailings_list/', MailingSrvListView.as_view(), name='mailings_list'),
 ]
