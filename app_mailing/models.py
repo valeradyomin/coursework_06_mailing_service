@@ -38,11 +38,11 @@ class MailingSrv(models.Model):
     recipients = models.ManyToManyField(Client, verbose_name='получатели рассылки')
     start = models.DateTimeField(auto_now_add=True, verbose_name='время начала рассылки')
     finish = models.DateTimeField(verbose_name='время завершения рассылки')
-    status = models.CharField(max_length=100, default=STATUS[0], verbose_name='статус рассылки')
+    status = models.CharField(max_length=100, default=STATUS[0][1], verbose_name='статус рассылки')
     frequency = models.CharField(max_length=50, choices=FREQUENCY, verbose_name='периодичность рассылки')
 
     def __str__(self):
-        return f'параметры рассылки {self.pk}: {self.status} (с {self.start} по {self.finish} - {self.frequency})'
+        return f'Рассылка_{self.pk}: {self.status} (с {self.start} по {self.finish} - {self.frequency})'
 
     class Meta:
         verbose_name = 'параметр рассылки'
