@@ -56,7 +56,7 @@ class MailingSrvCreateView(BaseContextMixin, CreateView):
         'phrases': BaseContextMixin.phrases,
     }
 
-# TODO def get_success_url
+
 class MailingSrvUpdateView(BaseContextMixin, UpdateView):
     model = MailingSrv
     fields = ('recipients', 'start', 'finish', 'status', 'frequency',)
@@ -65,6 +65,9 @@ class MailingSrvUpdateView(BaseContextMixin, UpdateView):
         'title': 'Редактирование рассылки',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_success_url(self):
+        return reverse('app_mailing:mailings_detail', args=[self.object.pk])
 
 
 class MailingSrvDetailView(BaseContextMixin, DetailView):
