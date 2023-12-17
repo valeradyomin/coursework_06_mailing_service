@@ -17,8 +17,8 @@
                     <li>Получатели рассылки: {{ object.recipients }}</li>
                 </ul>
                 <div class="btn-group">
-                    <a href="#" type="button"
-                       class="btn btn-sm btn-outline-primary">Посмотреть</a>
+                    <a href="{% url 'app_mailing:mailings_delete' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-primary">Удалить</a>
                     <a href="{% url 'app_mailing:mailings_update' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Редактировать</a>
                 </div>

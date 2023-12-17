@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import random
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from app_mailing.models import MailingSrv
 
@@ -72,5 +72,15 @@ class MailingSrvDetailView(BaseContextMixin, DetailView):
 
     extra_context = {
         'title': 'Детали рассылки',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class MailingSrvDeleteView(BaseContextMixin, DeleteView):
+    model = MailingSrv
+    success_url = reverse_lazy('app_mailing:mailings_list')
+
+    extra_context = {
+        'title': 'Удаление рассылки',
         'phrases': BaseContextMixin.phrases,
     }
