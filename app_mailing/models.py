@@ -22,23 +22,30 @@ class Client(models.Model):
 
 
 class MailingSrv(models.Model):
+    BY_DAY = 'раз в день'
+    BY_WEEK = 'раз в неделю'
+    BY_MONTH = 'раз в месяц'
 
     FREQUENCY = [
-        ('DAY', 'раз в день'),
-        ('WEEK', 'раз в неделю'),
-        ('MONTH', 'раз в месяц')
+        (BY_DAY, 'раз в день'),
+        (BY_WEEK, 'раз в неделю'),
+        (BY_MONTH, 'раз в месяц')
     ]
 
+    CREATED = 'создана'
+    PROCESSING = 'запущена'
+    FINISHED = 'завершена'
+
     STATUS = [
-        ('CREATED', 'создана'),
-        ('PROCESSING', 'запущена'),
-        ('FINISHED', 'завершена')
+        (CREATED, 'создана'),
+        (PROCESSING, 'запущена'),
+        (FINISHED, 'завершена')
     ]
 
     recipients = models.ManyToManyField(Client, verbose_name='получатели рассылки')
-    start = models.DateTimeField(auto_now_add=True, verbose_name='время начала рассылки')
+    start = models.DateTimeField(verbose_name='время начала рассылки')
     finish = models.DateTimeField(verbose_name='время завершения рассылки')
-    status = models.CharField(max_length=100, default=STATUS[0][1], verbose_name='статус рассылки')
+    status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0], verbose_name='статус рассылки')
     frequency = models.CharField(max_length=50, choices=FREQUENCY, verbose_name='периодичность рассылки')
 
     def __str__(self):
@@ -64,7 +71,6 @@ class Mail(models.Model):
 
 
 class Log(models.Model):
-
     STATUS = [
         ('success', 'успешно'),
         ('failure', 'не выполнено')
