@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import random
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 
 from app_mailing.models import MailingSrv
 
@@ -55,3 +55,14 @@ class MailingSrvCreateView(BaseContextMixin, CreateView):
         'title': 'Создание новой рассылки',
         'phrases': BaseContextMixin.phrases,
     }
+
+
+class MailingSrvUpdateView(BaseContextMixin, UpdateView):
+    model = MailingSrv
+    fields = ('recipients', 'start', 'finish', 'status', 'frequency',)
+
+    extra_context = {
+        'title': 'Редактирование рассылки',
+        'phrases': BaseContextMixin.phrases,
+    }
+
