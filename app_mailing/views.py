@@ -3,6 +3,7 @@ import random
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
+from app_mailing.forms import MailingSrvForm
 from app_mailing.models import MailingSrv
 
 
@@ -48,7 +49,8 @@ class MailingSrvListView(BaseContextMixin, ListView):
 
 class MailingSrvCreateView(BaseContextMixin, CreateView):
     model = MailingSrv
-    fields = ('recipients', 'start', 'finish', 'status', 'frequency',)
+    form_class = MailingSrvForm
+
     success_url = reverse_lazy('app_mailing:mailings_list')
 
     extra_context = {
