@@ -4,7 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from app_mailing.forms import MailingSrvForm
-from app_mailing.models import MailingSrv
+from app_mailing.models import MailingSrv, Mail
 
 
 # Create your views here.
@@ -61,7 +61,7 @@ class MailingSrvCreateView(BaseContextMixin, CreateView):
 
 class MailingSrvUpdateView(BaseContextMixin, UpdateView):
     model = MailingSrv
-    fields = ('recipients', 'start', 'finish', 'status', 'frequency',)
+    form_class = MailingSrvForm
 
     extra_context = {
         'title': 'Редактирование рассылки',
@@ -88,4 +88,11 @@ class MailingSrvDeleteView(BaseContextMixin, DeleteView):
     extra_context = {
         'title': 'Удаление рассылки',
         'phrases': BaseContextMixin.phrases,
+    }
+
+
+class MailListView(BaseContextMixin, ListView):
+    model = Mail
+    extra_context = {
+        'title': 'Список писем',
     }
