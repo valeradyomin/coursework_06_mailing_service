@@ -4,7 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from app_mailing.forms import MailingSrvForm, MailForm
-from app_mailing.models import MailingSrv, Mail
+from app_mailing.models import MailingSrv, Mail, Client
 
 
 # Create your views here.
@@ -134,5 +134,13 @@ class MailDeleteView(BaseContextMixin, DeleteView):
     success_url = reverse_lazy('app_mailing:mail_list')
     extra_context = {
         'title': 'Удаление письма',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class ClientListView(BaseContextMixin, ListView):
+    model = Client
+    extra_context = {
+        'title': 'Список клиентов',
         'phrases': BaseContextMixin.phrases,
     }
