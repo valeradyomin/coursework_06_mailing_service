@@ -17,18 +17,18 @@
                 <details>
                     <summary>Подробности</summary>
                     <ul class="list-unstyled mt-3 mb-4">
-                        <li>Инициалы клиента: {{ object.initials }}</li>
+                        <li>Инициалы клиента: {{ object.initials | upper }}</li>
                         <li>Почтовый адрес клиента: {{ object.email }}</li>
                         <li>Комментарий: {{ object.comment }}</li>
                     </ul>
                 </details>
 
                 <div class="btn-group">
-                    <a href="{% url 'app_mailing:mailings_detail' object.pk %}" type="button"
+                    <a href="{% url 'app_mailing:client_detail' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Посмотреть</a>
-                    <a href="{% url 'app_mailing:mailings_update' object.pk %}" type="button"
+                    <a href="{% url 'app_mailing:client_update' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Редактировать</a>
-                    <a href="{% url 'app_mailing:mailings_delete' object.pk %}" type="button"
+                    <a href="{% url 'app_mailing:client_delete' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Удалить</a>
                 </div>
             </div>

@@ -155,3 +155,31 @@ class ClientCreateView(BaseContextMixin, CreateView):
         'phrases': BaseContextMixin.phrases,
     }
 
+
+class ClientUpdateView(BaseContextMixin, UpdateView):
+    model = Client
+    form_class = ClientForm
+    extra_context = {
+        'title': 'Редактирование клиента',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+    def get_success_url(self):
+        return reverse('app_mailing:client_detail', args=[self.kwargs.get('pk')])
+
+
+class ClientDetailView(BaseContextMixin, DetailView):
+    model = Client
+    extra_context = {
+        'title': 'Просмотр клиента',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class ClientDeleteView(BaseContextMixin, DeleteView):
+    model = Client
+    success_url = reverse_lazy('app_mailing:client_list')
+    extra_context = {
+        'title': 'Удаление клиента',
+        'phrases': BaseContextMixin.phrases,
+    }
