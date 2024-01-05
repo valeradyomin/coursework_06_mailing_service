@@ -95,6 +95,7 @@ class MailListView(BaseContextMixin, ListView):
     model = Mail
     extra_context = {
         'title': 'Список писем',
+        'phrases': BaseContextMixin.phrases,
     }
 
 
@@ -104,4 +105,34 @@ class MailCreateView(BaseContextMixin, CreateView):
     success_url = reverse_lazy('app_mailing:mail_list')
     extra_context = {
         'title': 'Создание письма',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class MailUpdateView(BaseContextMixin, UpdateView):
+    model = Mail
+    form_class = MailForm
+    extra_context = {
+        'title': 'Редактирование письма',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+    def get_success_url(self):
+        return reverse('app_mailing:mail_detail', args=[self.kwargs.get('pk')])
+
+
+class MailDetailView(BaseContextMixin, DetailView):
+    model = Mail
+    extra_context = {
+        'title': 'Просмотр письма',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class MailDeleteView(BaseContextMixin, DeleteView):
+    model = Mail
+    success_url = reverse_lazy('app_mailing:mail_list')
+    extra_context = {
+        'title': 'Удаление письма',
+        'phrases': BaseContextMixin.phrases,
     }
