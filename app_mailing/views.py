@@ -3,7 +3,7 @@ import random
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
-from app_mailing.forms import MailingSrvForm, MailForm
+from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
 from app_mailing.models import MailingSrv, Mail, Client
 
 
@@ -144,3 +144,14 @@ class ClientListView(BaseContextMixin, ListView):
         'title': 'Список клиентов',
         'phrases': BaseContextMixin.phrases,
     }
+
+
+class ClientCreateView(BaseContextMixin, CreateView):
+    model = Client
+    form_class = ClientForm
+    success_url = reverse_lazy('app_mailing:client_list')
+    extra_context = {
+        'title': 'Добавить клиента',
+        'phrases': BaseContextMixin.phrases,
+    }
+
