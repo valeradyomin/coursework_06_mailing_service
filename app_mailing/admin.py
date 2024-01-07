@@ -17,9 +17,9 @@ class AdminMailingSrv(admin.ModelAdmin):
 
 @admin.register(Mail)
 class AdminMail(admin.ModelAdmin):
-    list_display = ('subject', 'content', 'mailing_list',)
+    list_display = ('subject', 'content',)
 
 
 @admin.register(Log)
 class AdminLog(admin.ModelAdmin):
-    list_display = ('attempt_time', 'attempt_status', 'server_response', 'mailings_list',)
+    list_display = ('attempt_time', 'status', 'server_response', 'mailing',)
