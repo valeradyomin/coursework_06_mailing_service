@@ -21,8 +21,10 @@ def my_job():
         emails_list = [client.email for client in mailing.recipients.all()]
 
         result = send_mail(
-            subject=mailing.mail.subject,
-            message=mailing.mail.content,
+            # subject=mailing.mail.subject,
+            subject="Hi",
+            # message=mailing.mail.content,
+            message='WTF',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=emails_list,
             fail_silently=False,
