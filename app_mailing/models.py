@@ -76,8 +76,7 @@ class MailingSrv(models.Model):
 
 
 class Log(models.Model):
-
-    attempt_time = models.DateTimeField(auto_now=True, verbose_name='время последней попытки'),
+    attempt_time = models.DateTimeField(auto_now=True, verbose_name='время последней попытки')
     status = models.CharField(max_length=50, verbose_name='статус попытки', default='попытка не инициирована')
     server_response = models.TextField(verbose_name='ответ почтового сервера', **NULLABLE)
     mailing = models.ForeignKey(MailingSrv, on_delete=models.CASCADE, verbose_name='рассылка', **NULLABLE)

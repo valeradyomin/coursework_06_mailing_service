@@ -21,10 +21,8 @@ def my_job():
         emails_list = [client.email for client in mailing.recipients.all()]
 
         result = send_mail(
-            # subject=mailing.mail.subject,
-            subject="Hi",
-            # message=mailing.mail.content,
-            message='WTF',
+            subject=mailing.mail.subject,
+            message=mailing.mail.content,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=emails_list,
             fail_silently=False,
@@ -32,10 +30,12 @@ def my_job():
 
         if result == 1:
             status = 'успешно отправлено'
+            server_response = '200'
         else:
             status = 'ошибка отправления'
+            server_response = '400'
 
-        log = Log(mailing=mailing, status=status)
+        log = Log(mailing=mailing, status=status, server_response=server_response)
         log.save()
 
         if mailing.frequency == 'раз в день':
@@ -45,9 +45,9 @@ def my_job():
         elif mailing.frequency == 'раз в месяц':
             mailing.next = log.attempt_time + month
         elif mailing.frequency == 'единоразово':
-            mailing.next = mailing.end
+            mailing.next = mailing.finish
 
-        if mailing.next < mailing.end:
+        if mailing.next < mailing.finish:
             mailing.status = 'создана'
         else:
             mailing.status = 'завершена'
