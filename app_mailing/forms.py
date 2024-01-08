@@ -15,7 +15,7 @@ class StyleFormMiXin:
 class MailingSrvForm(StyleFormMiXin, forms.ModelForm):
     class Meta:
         model = MailingSrv
-        fields = ['name', 'recipients', 'mail', 'start', 'finish', 'status', 'frequency', 'is_activated']
+        fields = ['recipients', 'mail', 'start', 'finish', 'status', 'frequency', 'is_activated']
 
 
 class MailForm(StyleFormMiXin, forms.ModelForm):

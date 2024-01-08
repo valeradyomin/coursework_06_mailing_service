@@ -6,6 +6,8 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView,
 from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
 from app_mailing.models import MailingSrv, Mail, Client
 
+from django.forms import inlineformset_factory
+
 
 # Create your views here.
 

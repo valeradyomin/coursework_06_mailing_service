@@ -26,6 +26,9 @@ class Mail(models.Model):
     subject = models.CharField(max_length=150, verbose_name='тема письма')
     content = models.TextField(verbose_name='тело письма')
 
+    mailings = models.ForeignKey('MailingSrv', on_delete=models.CASCADE, verbose_name='рассылки',
+                                 related_name='mails', **NULLABLE)
+
     def __str__(self):
         return self.subject
 
@@ -57,7 +60,6 @@ class MailingSrv(models.Model):
         (FINISHED, 'завершена')
     ]
 
-    name = models.CharField(max_length=25, verbose_name='наименование рассылки', **NULLABLE)
     recipients = models.ManyToManyField(Client, verbose_name='получатели рассылки')
     mail = models.ForeignKey(Mail, on_delete=models.CASCADE, verbose_name='письмо', **NULLABLE)
     start = models.DateTimeField(default=timezone.now, verbose_name='время начала рассылки')
