@@ -35,10 +35,22 @@ class BaseContextMixin:
 
 class MainPage(BaseContextMixin, TemplateView):
     template_name = 'app_mailing/home.html'
+
     extra_context = {
-        'title': 'Главная страница нашего сайта',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница нашего сайта'
+        context['mailings_count'] = MailingSrv.objects.count()
+        context['created_mailings_count'] = MailingSrv.objects.filter(status='создана').count()
+        context['processing_mailings_count'] = MailingSrv.objects.filter(status='запущена').count()
+        context['finished_mailings_count'] = MailingSrv.objects.filter(status='завершена').count()
+        context['unique_clients_count'] = Client.objects.count()
+        return context
+
+
 
 
 class MailingSrvListView(BaseContextMixin, ListView):

@@ -10,9 +10,9 @@ def my_job():
     week = timedelta(days=7, hours=0, minutes=0)
     month = timedelta(days=30, hours=0, minutes=0)
 
-    mailings = MailingSrv.objects.all().filter(status='создана')\
-        .filter(is_activated=True)\
-        .filter(next__lte=datetime.now(pytz.timezone('Europe/Moscow')))\
+    mailings = MailingSrv.objects.all().filter(status='создана') \
+        .filter(is_activated=True) \
+        .filter(next__lte=datetime.now(pytz.timezone('Europe/Moscow'))) \
         .filter(finish__gte=datetime.now(pytz.timezone('Europe/Moscow')))
 
     for mailing in mailings:
