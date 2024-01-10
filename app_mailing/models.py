@@ -89,3 +89,4 @@ class Log(models.Model):
     class Meta:
         verbose_name = 'отчет'
         verbose_name_plural = 'отчеты'
+        ordering = ('mailing',)
