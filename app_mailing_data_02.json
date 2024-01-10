@@ -1,0 +1,226 @@
+[
+  {
+    "model": "app_mailing.client",
+    "pk": 1,
+    "fields": {
+      "email": "marketsense_2023_08_04@rambler.ru",
+      "initials": "tms",
+      "comment": "comment for TMS"
+    }
+  },
+  {
+    "model": "app_mailing.client",
+    "pk": 2,
+    "fields": {
+      "email": "marketsense_2023-12-07@mail.ru",
+      "initials": "MMM",
+      "comment": "comment for MMM"
+    }
+  },
+  {
+    "model": "app_mailing.client",
+    "pk": 3,
+    "fields": {
+      "email": "tmp@tmp.wtf",
+      "initials": "qwe",
+      "comment": "hz kto eto"
+    }
+  },
+  {
+    "model": "app_mailing.mail",
+    "pk": 1,
+    "fields": {
+      "subject": "TEST 0001",
+      "content": "LETS GO",
+      "mailings": null
+    }
+  },
+  {
+    "model": "app_mailing.mail",
+    "pk": 2,
+    "fields": {
+      "subject": "TEST 0002",
+      "content": "SEND 2",
+      "mailings": null
+    }
+  },
+  {
+    "model": "app_mailing.mail",
+    "pk": 3,
+    "fields": {
+      "subject": "TEST 0003",
+      "content": "CHECK THIS OUT",
+      "mailings": null
+    }
+  },
+  {
+    "model": "app_mailing.mail",
+    "pk": 4,
+    "fields": {
+      "subject": "TEST 0004 ONCE",
+      "content": "ONE MORE TIME",
+      "mailings": null
+    }
+  },
+  {
+    "model": "app_mailing.mail",
+    "pk": 5,
+    "fields": {
+      "subject": "TEST 0005 WRONG MAIL",
+      "content": "WRONG MAIL ADRESS",
+      "mailings": null
+    }
+  },
+  {
+    "model": "app_mailing.mailingsrv",
+    "pk": 1,
+    "fields": {
+      "mail": 1,
+      "start": "2024-01-08T20:44:15Z",
+      "next": "2024-01-11T20:47:26.735Z",
+      "finish": "2024-08-08T20:44:15Z",
+      "status": "создана",
+      "frequency": "раз в день",
+      "is_activated": true,
+      "recipients": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "app_mailing.mailingsrv",
+    "pk": 2,
+    "fields": {
+      "mail": 2,
+      "start": "2024-01-08T20:47:57Z",
+      "next": "2024-01-09T20:48:45.665Z",
+      "finish": "2024-01-08T20:51:57Z",
+      "status": "завершена",
+      "frequency": "раз в день",
+      "is_activated": true,
+      "recipients": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "app_mailing.mailingsrv",
+    "pk": 3,
+    "fields": {
+      "mail": 3,
+      "start": "2024-01-09T20:48:38Z",
+      "next": "2024-01-11T20:47:45.783Z",
+      "finish": "2024-01-10T20:48:38Z",
+      "status": "завершена",
+      "frequency": "раз в день",
+      "is_activated": true,
+      "recipients": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "app_mailing.mailingsrv",
+    "pk": 4,
+    "fields": {
+      "mail": 4,
+      "start": "2024-01-09T20:54:02Z",
+      "next": "2024-01-09T20:56:02Z",
+      "finish": "2024-01-09T20:56:02Z",
+      "status": "завершена",
+      "frequency": "единоразово",
+      "is_activated": true,
+      "recipients": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "app_mailing.mailingsrv",
+    "pk": 5,
+    "fields": {
+      "mail": 5,
+      "start": "2024-01-10T00:33:40Z",
+      "next": "2024-01-10T00:36:40Z",
+      "finish": "2024-01-10T00:36:40Z",
+      "status": "завершена",
+      "frequency": "единоразово",
+      "is_activated": true,
+      "recipients": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 1,
+    "fields": {
+      "attempt_time": "2024-01-08T20:45:56.135Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 1
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 2,
+    "fields": {
+      "attempt_time": "2024-01-08T20:48:45.665Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 2
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 3,
+    "fields": {
+      "attempt_time": "2024-01-09T20:47:07.469Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 1
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 4,
+    "fields": {
+      "attempt_time": "2024-01-09T20:47:23.140Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 3
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 5,
+    "fields": {
+      "attempt_time": "2024-01-09T20:55:05.830Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 4
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 7,
+    "fields": {
+      "attempt_time": "2024-01-10T20:47:26.735Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 1
+    }
+  },
+  {
+    "model": "app_mailing.log",
+    "pk": 8,
+    "fields": {
+      "attempt_time": "2024-01-10T20:47:45.783Z",
+      "status": "успешно отправлено",
+      "server_response": "200",
+      "mailing": 3
+    }
+  }
+]
