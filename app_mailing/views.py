@@ -4,7 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
-from app_mailing.models import MailingSrv, Mail, Client
+from app_mailing.models import MailingSrv, Mail, Client, Log
 
 from django.forms import inlineformset_factory
 
@@ -49,8 +49,6 @@ class MainPage(BaseContextMixin, TemplateView):
         context['finished_mailings_count'] = MailingSrv.objects.filter(status='завершена').count()
         context['unique_clients_count'] = Client.objects.count()
         return context
-
-
 
 
 class MailingSrvListView(BaseContextMixin, ListView):
@@ -195,5 +193,47 @@ class ClientDeleteView(BaseContextMixin, DeleteView):
     success_url = reverse_lazy('app_mailing:client_list')
     extra_context = {
         'title': 'Удаление клиента',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class LogListView(BaseContextMixin, ListView):
+    model = Log
+    extra_context = {
+        'title': 'Отчеты по рассылкам',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mailing_data = []
+        for log in context['object_list']:
+            recipients_data = log.mailing.recipients.values('email', 'initials', 'comment')
+            mailing_data.append({'log': log, 'recipients_data': recipients_data})
+        context['mailing_data'] = mailing_data
+        return context
+
+
+class LogDetailView(BaseContextMixin, DetailView):
+    model = Log
+    extra_context = {
+        'title': 'Отчет по рассылке',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mailing_data = []
+        recipients_data = self.object.mailing.recipients.values('email', 'initials', 'comment')
+        mailing_data.append({'log': self.object, 'recipients_data': recipients_data})
+        context['mailing_data'] = mailing_data
+        return context
+
+
+class LogDeleteView(BaseContextMixin, DeleteView):
+    model = Log
+    success_url = reverse_lazy('app_mailing:log_list')
+    extra_context = {
+        'title': 'Удаление отчета',
         'phrases': BaseContextMixin.phrases,
     }
