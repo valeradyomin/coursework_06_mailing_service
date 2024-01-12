@@ -14,8 +14,17 @@
                     <li>Время начала рассылки: {{ object.start }}</li>
                     <li>Время завершения рассылки: {{ object.finish }}</li>
                     <li>Статус рассылки: {{ object.status }}</li>
-                    <li>Получатели рассылки: {{ object.recipients }}</li>
                 </ul>
+
+                <hr>
+
+                <ul class="list-unstyled mt-3 mb-4">
+                    {% for recipient_data in mailing_data.0.recipients_data %}
+                    <li>Почтовый ящик: {{ recipient_data.email }} (ФИО: {{ recipient_data.initials }})</li>
+                    {% endfor %}
+                </ul>
+
+
                 <div class="btn-group">
                     <a href="{% url 'app_mailing:mailings_delete' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Удалить</a>

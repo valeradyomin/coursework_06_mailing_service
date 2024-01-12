@@ -92,6 +92,14 @@ class MailingSrvDetailView(BaseContextMixin, DetailView):
         'phrases': BaseContextMixin.phrases,
     }
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mailing_data = []
+        recipients_data = self.object.recipients.values('email', 'initials', 'comment')
+        mailing_data.append({'recipients_data': recipients_data})
+        context['mailing_data'] = mailing_data
+        return context
+
 
 class MailingSrvDeleteView(BaseContextMixin, DeleteView):
     model = MailingSrv
