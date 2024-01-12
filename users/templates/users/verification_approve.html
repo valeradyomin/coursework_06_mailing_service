@@ -1,0 +1,10 @@
+{% extends 'app_mailing/base.html' %}
+
+{% block content %}
+    <div class="row text-center">
+        <div class="col-12">
+            <h4>Регистрация успешно завершена.</h4>
+            <a class="p-2 btn btn-success" href="{% url 'users:login' %}">Войти</a>
+        </div>
+    </div>
+{% endblock %}
