@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView, ListView, UpdateView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DetailView, DeleteView
 
 from app_mailing.views import BaseContextMixin
 from users.forms import LoginViewForm, UserRegisterForm, UserUpdateForm
@@ -91,6 +91,23 @@ class UserUpdateView(BaseContextMixin, UpdateView):
 
     extra_context = {
         'title': 'Редактирование пользователя',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class UserDetailView(BaseContextMixin, DetailView):
+    model = User
+    extra_context = {
+        'title': 'Просмотр пользователя',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class UserDeleteView(BaseContextMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('users:register')
+    extra_context = {
+        'title': 'Удаление пользователя',
         'phrases': BaseContextMixin.phrases,
     }
 
