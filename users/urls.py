@@ -2,7 +2,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from users.apps import UsersConfig
-from users.views import LoginView, LogoutView, RegisterView, get_verification, RegisterInfo
+from users.views import LoginView, LogoutView, RegisterView, get_verification, RegisterInfo, UserListView
 
 app_name = UsersConfig.name
 
@@ -16,4 +16,5 @@ urlpatterns = [
             template_name='users/verification_approve.html'), name='verification_approve'),
     path('verification_reject/', TemplateView.as_view(
                 template_name='users/verification_reject.html'), name='verification_reject'),
+    path('user_list/', UserListView.as_view(), name='user_list'),
 ]

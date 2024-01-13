@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, ListView
 
 from app_mailing.views import BaseContextMixin
 from users.forms import LoginViewForm, UserRegisterForm
@@ -74,6 +74,14 @@ class RegisterInfo(TemplateView):
         user_email = self.request.GET.get('email')
         context['info'] = f'На ваш почтовый адрес {user_email} была отправлена ссылка для завершения регистрации.'
         return context
+
+
+class UserListView(BaseContextMixin, ListView):
+    model = User
+    extra_context = {
+        'title': 'Список пользователей сервиса',
+        'phrases': BaseContextMixin.phrases,
+    }
 
 
 def get_verification(request, verification_code):
