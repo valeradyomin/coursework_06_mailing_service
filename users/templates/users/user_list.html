@@ -1,5 +1,7 @@
 {% extends 'app_mailing/base.html' %}
 
+{% load users_tags %}
+
 {% block content %}
 
 
@@ -12,8 +14,11 @@
             </div>
             <div class="card-body">
                 <details>
-                    <summary>Подробности</summary>
+                    <summary>Подробности</summary
                     <ul class="list-unstyled mt-3 mb-4">
+                        <div class="col-md-4">
+                            <img src="{% media_tag object.image %}" class="img-fluid rounded-start" alt="Image">
+                        </div>
                         <li>Имя пользователя: {{ object.first_name|default:"не указано" }}</li>
                         <li>Фамилия пользователя: {{ object.last_name|default:"не указана" }}</li>
                         <li>Почта пользователя: {{ object.email|default:"не указана" }}</li>
