@@ -6,10 +6,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView, ListView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView
 
 from app_mailing.views import BaseContextMixin
-from users.forms import LoginViewForm, UserRegisterForm
+from users.forms import LoginViewForm, UserRegisterForm, UserUpdateForm
 from users.models import User
 
 
@@ -80,6 +80,17 @@ class UserListView(BaseContextMixin, ListView):
     model = User
     extra_context = {
         'title': 'Список пользователей сервиса',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+
+class UserUpdateView(BaseContextMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    success_url = reverse_lazy('users:user_list')
+
+    extra_context = {
+        'title': 'Редактирование пользователя',
         'phrases': BaseContextMixin.phrases,
     }
 
