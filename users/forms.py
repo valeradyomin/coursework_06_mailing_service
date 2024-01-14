@@ -4,7 +4,7 @@ from users.models import User
 from django import forms
 
 
-class StyleFormMiXin:
+class StyleFormMiXin(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,3 +33,30 @@ class UserUpdateForm(StyleFormMiXin, UserChangeForm):
         fields = ('email', 'first_name', 'last_name', 'phone', 'avatar', 'password')
 
     password = forms.CharField(label='reset', max_length=256, widget=forms.HiddenInput())
+
+
+class UserPasswordForm(StyleFormMiXin, forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput, label='Старый пароль')
+    new_password1 = forms.CharField(widget=forms.PasswordInput, label='Новый пароль')
+    new_password2 = forms.CharField(widget=forms.PasswordInput, label='Подтверждение нового пароля')
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError('пароли не совпадают')
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        password = self.cleaned_data.get('new_password1')
+        self.user.set_password(password)
+        if commit:
+            self.user.save()
+        return self.user

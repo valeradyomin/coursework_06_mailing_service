@@ -11,6 +11,9 @@
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form.as_p }}
+                                {% if object %}
+                                <a href="{% url 'users:password_change' %}" class="btn btn-warning">Сменить пароль</a>
+                                {% endif %}
                                    <button type="submit" class="btn btn-success">
                                        {% if object %}
                                             Сохранить изменения
