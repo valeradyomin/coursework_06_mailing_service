@@ -17,7 +17,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+                <a href="{% url 'app_mailing:mailings_create' %}" class="btn btn-lg btn-block btn-outline-primary">Добавить рассылку</a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -30,26 +30,55 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+                <a href="{% url 'app_mailing:client_create' %}" class="btn btn-lg btn-block btn-outline-primary">Добавить клиента</a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Enterprise</h4>
+                <h4 class="my-0 font-weight-normal">Пользователи</h4>
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li>30 users included</li>
-                    <li>15 GB of storage</li>
-                    <li>Phone and email support</li>
-                    <li>Help center access</li>
+                    <li>Количество пользователей: {{ unique_users_count }}</li>
                 </ul>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'users:register' %}">Зарегистрироваться</a>
             </div>
         </div>
     </div>
+    {% if blogpost_list %}
+    <hr class="my-4"> <!-- Горизонтальный разделитель -->
+        <h4 class="text-center">Публикации нашего блога:</h4>
+    <hr class="my-4"> <!-- Горизонтальный разделитель -->
+    <div class="card-deck mb-3 text-center">
+        {% for post in blogpost_list %}
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ post.title }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-end mt-auto">
+                    <ol class="list-group list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <small class="text-body-secondary">Просмотры:</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">{{ post.views_count }}</span>
+                        </li>
+                    </ol>
+                </div>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>{{ post.content | truncatechars:111 }}</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'app_blog:post_list' %}">Читать публикации</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

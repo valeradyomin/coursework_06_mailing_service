@@ -3,10 +3,13 @@ import random
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
+from app_blog.models import Blogpost
 from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
 from app_mailing.models import MailingSrv, Mail, Client, Log
 
 from django.forms import inlineformset_factory
+
+from users.models import User
 
 
 # Create your views here.
@@ -48,6 +51,12 @@ class MainPage(BaseContextMixin, TemplateView):
         context['processing_mailings_count'] = MailingSrv.objects.filter(status='запущена').count()
         context['finished_mailings_count'] = MailingSrv.objects.filter(status='завершена').count()
         context['unique_clients_count'] = Client.objects.count()
+        context['unique_users_count'] = User.objects.count()
+
+        blogpost_list = list(Blogpost.objects.all())
+        random.shuffle(blogpost_list)
+        context['blogpost_list'] = blogpost_list[:3]
+
         return context
 
 
