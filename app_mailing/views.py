@@ -7,7 +7,6 @@ from app_blog.models import Blogpost
 from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
 from app_mailing.models import MailingSrv, Mail, Client, Log
 
-from django.forms import inlineformset_factory
 
 from users.models import User
 
