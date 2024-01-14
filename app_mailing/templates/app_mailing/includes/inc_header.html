@@ -6,6 +6,7 @@
         <a href="{% url 'app_mailing:mail_list' %}" class="p-2 btn btn-outline-primary">Письма</a>
         <a href="{% url 'app_mailing:client_list' %}" class="p-2 btn btn-outline-primary">Клиенты</a>
         <a href="{% url 'app_mailing:log_list' %}" class="p-2 btn btn-outline-primary">Отчеты</a>
+        <a href="{% url 'app_blog:post_list' %}" class="p-2 btn btn-outline-primary">Блог</a>
 
         {% if user.is_authenticated %}
             <a class="p-2 btn btn-outline-primary" href="{% url 'users:user_list' %}">Пользователи</a>

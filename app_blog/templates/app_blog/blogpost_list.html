@@ -1,0 +1,34 @@
+{% extends 'app_mailing/base.html' %}
+
+{% block content %}
+
+<div class="col-12 mb-5">
+    <a class="btn btn-outline-primary" href="{% url 'app_blog:post_create' %}">Добавить запись</a>
+</div>
+
+
+<div class="list-group">
+{% for object in object_list %}
+  <a href="{% url 'app_blog:post_view' object.pk %}" class="list-group-item list-group-item-action">
+      <div class="d-flex justify-content-end mt-auto">
+
+          <ol class="list-group list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                  <div class="ms-2 me-auto">
+                      <small class="text-body-secondary">Просмотры:</small>
+                  </div>
+                  <span class="badge bg-primary rounded-pill">{{ object.views_count }}</span>
+          </ol>
+
+      </div>
+    <div class="d-flex w-100 justify-content-between">
+      <h4 class="mb-1">{{ object.title | title }}</h4>
+      <small class="text-body-secondary">{{ object.date_create }}</small>
+    </div>
+    <p class="mb-1">{{ object.content | truncatechars:111 }}</p>
+    <small class="text-body-secondary">Добавил пользователь: {{ user.email }}</small>
+  </a>
+{% endfor %}
+</div>
+
+{% endblock %}
