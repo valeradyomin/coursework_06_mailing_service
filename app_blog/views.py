@@ -60,7 +60,7 @@ class BlogpostUpdateView(BaseContextMixin, UpdateView):
         return reverse('app_blog:post_view', args=[self.object.pk])
 
 
-class BlogpostDeleteView(DeleteView):
+class BlogpostDeleteView(BaseContextMixin, DeleteView):
     model = Blogpost
     success_url = reverse_lazy('app_blog:post_list')
 
