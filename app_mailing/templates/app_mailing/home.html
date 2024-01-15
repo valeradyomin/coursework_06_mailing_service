@@ -55,7 +55,7 @@
         {% for post in blogpost_list %}
         <div class="card mb-4 box-shadow">
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal">{{ post.title }}</h4>
+                <h4 class="my-0 font-weight-normal">{{ post.title | truncatechars:33 }}</h4>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-end mt-auto">
