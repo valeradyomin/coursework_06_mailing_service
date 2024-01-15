@@ -21,11 +21,13 @@ class MailingSrvForm(StyleFormMiXin, forms.ModelForm):
 class MailForm(StyleFormMiXin, forms.ModelForm):
     class Meta:
         model = Mail
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('owner',)
 
 
 class ClientForm(StyleFormMiXin, forms.ModelForm):
     class Meta:
         model = Client
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('owner',)
 
