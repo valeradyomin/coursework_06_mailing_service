@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from users.models import User
+
 # Create your models here.
 
 NULLABLE = {
@@ -10,6 +12,7 @@ NULLABLE = {
 
 
 class Client(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь-владелец', **NULLABLE)
     email = models.EmailField(max_length=100, unique=True, verbose_name='почтовый адрес')
     initials = models.CharField(max_length=50, verbose_name='инициалы')
     comment = models.TextField(verbose_name='комментарий', **NULLABLE)
@@ -23,6 +26,7 @@ class Client(models.Model):
 
 
 class Mail(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь-владелец', **NULLABLE)
     subject = models.CharField(max_length=150, verbose_name='тема письма')
     content = models.TextField(verbose_name='тело письма')
 
@@ -60,6 +64,7 @@ class MailingSrv(models.Model):
         (FINISHED, 'завершена')
     ]
 
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь-владелец', **NULLABLE)
     recipients = models.ManyToManyField(Client, verbose_name='получатели рассылки')
     mail = models.ForeignKey(Mail, on_delete=models.CASCADE, verbose_name='письмо', **NULLABLE)
     start = models.DateTimeField(default=timezone.now, verbose_name='время начала рассылки')
