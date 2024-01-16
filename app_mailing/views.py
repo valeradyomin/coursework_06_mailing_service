@@ -71,12 +71,25 @@ class MailingSrvCreateView(BaseContextMixin, CreateView):
     model = MailingSrv
     form_class = MailingSrvForm
 
-    success_url = reverse_lazy('app_mailing:mailings_list')
-
     extra_context = {
         'title': 'Создание новой рассылки',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form, *args, **kwargs):
+        if form.is_valid():
+            new_mailing = form.save(commit=False)
+            new_mailing.owner = self.request.user
+            new_mailing.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('app_mailing:mailings_list')
 
 
 class MailingSrvUpdateView(BaseContextMixin, UpdateView):
@@ -136,6 +149,12 @@ class MailCreateView(BaseContextMixin, CreateView):
         'phrases': BaseContextMixin.phrases,
     }
 
+    def form_valid(self, form):
+        new_mail = form.save()
+        new_mail.owner = self.request.user
+        new_mail.save()
+        return super().form_valid(form)
+
 
 class MailUpdateView(BaseContextMixin, UpdateView):
     model = Mail
@@ -182,6 +201,12 @@ class ClientCreateView(BaseContextMixin, CreateView):
         'title': 'Добавить клиента',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def form_valid(self, form):
+        new_client = form.save()
+        new_client.owner = self.request.user
+        new_client.save()
+        return super().form_valid(form)
 
 
 class ClientUpdateView(BaseContextMixin, UpdateView):
