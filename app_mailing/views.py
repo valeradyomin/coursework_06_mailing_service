@@ -60,8 +60,9 @@ class MainPage(BaseContextMixin, TemplateView):
         return context
 
 
-class MailingSrvListView(BaseContextMixin, ListView):
+class MailingSrvListView(LoginRequiredMixin, BaseContextMixin, ListView):
     model = MailingSrv
+    login_url = 'users:login'
     extra_context = {
         'title': 'Список рассылок',
         'phrases': BaseContextMixin.phrases,
@@ -143,8 +144,9 @@ class MailingSrvDeleteView(BaseContextMixin, DeleteView):
     }
 
 
-class MailListView(BaseContextMixin, ListView):
+class MailListView(LoginRequiredMixin, BaseContextMixin, ListView):
     model = Mail
+    login_url = 'users:login'
     extra_context = {
         'title': 'Список писем',
         'phrases': BaseContextMixin.phrases,
@@ -201,8 +203,9 @@ class MailDeleteView(BaseContextMixin, DeleteView):
     }
 
 
-class ClientListView(BaseContextMixin, ListView):
+class ClientListView(LoginRequiredMixin, BaseContextMixin, ListView):
     model = Client
+    login_url = 'users:login'
     extra_context = {
         'title': 'Список клиентов',
         'phrases': BaseContextMixin.phrases,
@@ -261,6 +264,7 @@ class ClientDeleteView(BaseContextMixin, DeleteView):
 
 class LogListView(LoginRequiredMixin, BaseContextMixin, ListView):
     model = Log
+    login_url = 'users:login'
     extra_context = {
         'title': 'Отчеты по рассылкам',
         'phrases': BaseContextMixin.phrases,
