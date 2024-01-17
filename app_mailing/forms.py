@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import DateTimeInput
 
 from app_mailing.models import MailingSrv, Mail, Client
 
@@ -19,6 +20,18 @@ class MailingSrvForm(StyleFormMiXin, forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['recipients'].queryset = Client.objects.filter(owner=user)
         self.fields['mail'].queryset = Mail.objects.filter(owner=user)
+
+    start = forms.DateTimeField(
+        label='Время начала рассылки',
+        required=False,
+        widget=DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}, format='%Y-%m-%dT%H:%M')
+    )
+
+    finish = forms.DateTimeField(
+        label='Время окончания рассылки',
+        required=False,
+        widget=DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}, format='%Y-%m-%dT%H:%M')
+    )
 
     class Meta:
         model = MailingSrv
