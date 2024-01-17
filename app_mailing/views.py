@@ -101,6 +101,11 @@ class MailingSrvUpdateView(BaseContextMixin, UpdateView):
         'phrases': BaseContextMixin.phrases,
     }
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
     def get_success_url(self):
         return reverse('app_mailing:mailings_detail', args=[self.object.pk])
 
