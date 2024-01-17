@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import random
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
@@ -7,7 +7,7 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView,
 from app_blog.models import Blogpost
 from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
 from app_mailing.models import MailingSrv, Mail, Client, Log
-
+from app_mailing.services import manual_send_mailing
 
 from users.models import User
 
@@ -308,3 +308,9 @@ class LogDeleteView(BaseContextMixin, DeleteView):
         'title': 'Удаление отчета',
         'phrases': BaseContextMixin.phrases,
     }
+
+
+def send_mailing_btn(request, pk):
+    print(f'send_mailing {pk}')
+    manual_send_mailing(pk)
+    return redirect('app_mailing:mailings_list')

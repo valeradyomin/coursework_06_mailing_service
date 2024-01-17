@@ -75,7 +75,7 @@ class MailingSrv(models.Model):
     is_activated = models.BooleanField(default=True, verbose_name='метка активности')
 
     def __str__(self):
-        return f'Рассылка_{self.pk}: {self.status} (с {self.start} по {self.finish} - {self.frequency})'
+        return f'Рассылка_{self.pk}: {self.frequency} - {self.status}'
 
     class Meta:
         verbose_name = 'параметр рассылки'

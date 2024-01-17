@@ -31,6 +31,12 @@
                        class="btn btn-sm btn-outline-primary">Редактировать</a>
                     <a href="{% url 'app_mailing:mailings_delete' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Удалить</a>
+
+                    <form action="{% url 'app_mailing:send_mailing_btn' object.pk %}" method="post">
+                    {%csrf_token%}
+                        <button class="btn btn-success" type="submit">Выполнить</button>
+                    </form>
+
                 </div>
             </div>
         </div>
