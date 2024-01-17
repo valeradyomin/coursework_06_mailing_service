@@ -90,12 +90,15 @@ class UserListView(BaseContextMixin, ListView):
 class UserUpdateView(BaseContextMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
-    success_url = reverse_lazy('users:user_list')
+    # success_url = reverse_lazy('users:user_list')
 
     extra_context = {
         'title': 'Редактирование пользователя',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_success_url(self):
+        return reverse('users:user_detail', args=[self.kwargs.get('pk')])
 
 
 class UserDetailView(BaseContextMixin, DetailView):
