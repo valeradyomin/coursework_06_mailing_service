@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 import random
 from django.urls import reverse_lazy, reverse
@@ -65,6 +66,11 @@ class MailingSrvListView(BaseContextMixin, ListView):
         'title': 'Список рассылок',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = MailingSrv.objects.filter(owner=self.request.user)
+        return queryset
 
 
 class MailingSrvCreateView(BaseContextMixin, CreateView):
@@ -144,6 +150,11 @@ class MailListView(BaseContextMixin, ListView):
         'phrases': BaseContextMixin.phrases,
     }
 
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = Mail.objects.filter(owner=self.request.user)
+        return queryset
+
 
 class MailCreateView(BaseContextMixin, CreateView):
     model = Mail
@@ -197,6 +208,11 @@ class ClientListView(BaseContextMixin, ListView):
         'phrases': BaseContextMixin.phrases,
     }
 
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = Client.objects.filter(owner=self.request.user)
+        return queryset
+
 
 class ClientCreateView(BaseContextMixin, CreateView):
     model = Client
@@ -243,12 +259,17 @@ class ClientDeleteView(BaseContextMixin, DeleteView):
     }
 
 
-class LogListView(BaseContextMixin, ListView):
+class LogListView(LoginRequiredMixin, BaseContextMixin, ListView):
     model = Log
     extra_context = {
         'title': 'Отчеты по рассылкам',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(mailing__owner=self.request.user)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
