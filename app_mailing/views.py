@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect
 import random
 from django.urls import reverse_lazy, reverse
@@ -13,6 +13,15 @@ from users.models import User
 
 
 # Create your views here.
+
+class MyPermissionRequiredMixin(PermissionRequiredMixin):
+    def handle_no_permission(self):
+        return redirect(reverse('app_mailing:access_denied'))
+
+
+def custom_permission_denied(request):
+    return render(request, 'app_mailing/access_denied.html')
+
 
 class BaseContextMixin:
     phrases = [
@@ -99,9 +108,10 @@ class MailingSrvCreateView(BaseContextMixin, CreateView):
         return reverse('app_mailing:mailings_list')
 
 
-class MailingSrvUpdateView(BaseContextMixin, UpdateView):
+class MailingSrvUpdateView(MyPermissionRequiredMixin, BaseContextMixin, UpdateView):
     model = MailingSrv
     form_class = MailingSrvForm
+    permission_required = 'app_mailing.change_mailingsrv'
 
     extra_context = {
         'title': 'Редактирование рассылки',
