@@ -20,7 +20,10 @@ class MyPermissionRequiredMixin(PermissionRequiredMixin):
 
 
 def custom_permission_denied(request):
-    return render(request, 'app_mailing/access_denied.html')
+    context = {
+        'logged_in_user_email': request.user.email if request.user.is_authenticated else None
+    }
+    return render(request, 'app_mailing/access_denied.html', context=context)
 
 
 class BaseContextMixin:
