@@ -21,6 +21,11 @@
 
                 <ul class="list-unstyled mt-3 mb-4">
                     {% for recipient_data in mailing_data.0.recipients_data %}
+                    {% if mail_subject %}
+                        <li>Тема письма: {{ mail_subject }}</li>
+                    {% else %}
+                        <li>Письмо не назначено</li>
+                    {% endif %}
                     <li>Почтовый ящик: {{ recipient_data.email }} (ФИО: {{ recipient_data.initials }})</li>
                     {% endfor %}
                 </ul>

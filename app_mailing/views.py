@@ -131,6 +131,12 @@ class MailingSrvDetailView(BaseContextMixin, DetailView):
         recipients_data = self.object.recipients.values('email', 'initials', 'comment')
         mailing_data.append({'recipients_data': recipients_data})
         context['mailing_data'] = mailing_data
+
+        mail_subject = None
+        if self.object.mail:
+            mail_subject = self.object.mail.subject
+
+        context['mail_subject'] = mail_subject
         return context
 
 
@@ -167,6 +173,11 @@ class MailCreateView(BaseContextMixin, CreateView):
         'phrases': BaseContextMixin.phrases,
     }
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
     def form_valid(self, form):
         new_mail = form.save()
         new_mail.owner = self.request.user
@@ -181,6 +192,11 @@ class MailUpdateView(BaseContextMixin, UpdateView):
         'title': 'Редактирование письма',
         'phrases': BaseContextMixin.phrases,
     }
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
 
     def get_success_url(self):
         return reverse('app_mailing:mail_detail', args=[self.kwargs.get('pk')])

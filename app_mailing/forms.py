@@ -40,6 +40,12 @@ class MailingSrvForm(StyleFormMiXin, forms.ModelForm):
 
 
 class MailForm(StyleFormMiXin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        user = self.request.user
+        super().__init__(*args, **kwargs)
+        self.fields['mailings'].queryset = MailingSrv.objects.filter(owner=user)
+
     class Meta:
         model = Mail
         # fields = '__all__'
