@@ -179,7 +179,10 @@ class MailListView(LoginRequiredMixin, BaseContextMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = Mail.objects.filter(owner=self.request.user)
+        if self.request.user.is_superuser:
+            queryset = Mail.objects.all()
+        else:
+            queryset = queryset.filter(owner=self.request.user)
         return queryset
 
 
@@ -248,7 +251,10 @@ class ClientListView(LoginRequiredMixin, BaseContextMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = Client.objects.filter(owner=self.request.user)
+        if self.request.user.is_superuser:
+            queryset = Client.objects.all()
+        else:
+            queryset = queryset.filter(owner=self.request.user)
         return queryset
 
 
@@ -305,9 +311,12 @@ class LogListView(LoginRequiredMixin, BaseContextMixin, ListView):
         'phrases': BaseContextMixin.phrases,
     }
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(mailing__owner=self.request.user)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_superuser:
+            queryset = Log.objects.all()
+        else:
+            queryset = queryset.filter(mailing__owner=self.request.user)
         return queryset
 
     def get_context_data(self, **kwargs):
