@@ -35,8 +35,14 @@ class MailingSrvForm(StyleFormMiXin, forms.ModelForm):
 
     class Meta:
         model = MailingSrv
-        # fields = ['recipients', 'mail', 'start', 'finish', 'status', 'frequency', 'is_activated']
         exclude = ('next', 'owner', 'is_activated',)
+
+
+class MailingSrvCustomForm(StyleFormMiXin, forms.ModelForm):
+
+    class Meta:
+        model = MailingSrv
+        fields = ('is_activated',)
 
 
 class MailForm(StyleFormMiXin, forms.ModelForm):
@@ -48,13 +54,11 @@ class MailForm(StyleFormMiXin, forms.ModelForm):
 
     class Meta:
         model = Mail
-        # fields = '__all__'
         exclude = ('owner',)
 
 
 class ClientForm(StyleFormMiXin, forms.ModelForm):
     class Meta:
         model = Client
-        # fields = '__all__'
         exclude = ('owner',)
 

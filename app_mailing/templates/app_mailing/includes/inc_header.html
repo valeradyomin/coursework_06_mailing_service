@@ -3,9 +3,13 @@
     <nav class="my-2 my-md-0 mr-md-3">
         <a href="{% url 'app_mailing:home' %}" class="p-2 btn btn-outline-primary">Главная</a>
         <a href="{% url 'app_mailing:mailings_list' %}" class="p-2 btn btn-outline-primary">Рассылки</a>
+
+        {% if user.is_superuser or not user.groups.exists %}
         <a href="{% url 'app_mailing:mail_list' %}" class="p-2 btn btn-outline-primary">Письма</a>
         <a href="{% url 'app_mailing:client_list' %}" class="p-2 btn btn-outline-primary">Клиенты</a>
         <a href="{% url 'app_mailing:log_list' %}" class="p-2 btn btn-outline-primary">Отчеты</a>
+        {% endif %}
+
         <a href="{% url 'app_blog:post_list' %}" class="p-2 btn btn-outline-primary">Блог</a>
 
         {% if user.is_authenticated %}

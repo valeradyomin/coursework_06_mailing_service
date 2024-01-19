@@ -1,11 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 import random
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from app_blog.models import Blogpost
-from app_mailing.forms import MailingSrvForm, MailForm, ClientForm
+from app_mailing.forms import MailingSrvForm, MailForm, ClientForm, MailingSrvCustomForm
 from app_mailing.models import MailingSrv, Mail, Client, Log
 from app_mailing.services import manual_send_mailing
 
@@ -13,18 +13,6 @@ from users.models import User
 
 
 # Create your views here.
-
-class MyPermissionRequiredMixin(PermissionRequiredMixin):
-    def handle_no_permission(self):
-        return redirect(reverse('app_mailing:access_denied'))
-
-
-def custom_permission_denied(request):
-    context = {
-        'logged_in_user_email': request.user.email if request.user.is_authenticated else None
-    }
-    return render(request, 'app_mailing/access_denied.html', context=context)
-
 
 class BaseContextMixin:
     phrases = [
@@ -80,10 +68,10 @@ class MailingSrvListView(LoginRequiredMixin, BaseContextMixin, ListView):
         'phrases': BaseContextMixin.phrases,
     }
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = MailingSrv.objects.filter(owner=self.request.user)
-        return queryset
+    # def get_queryset(self, *args, **kwargs):
+    #     queryset = super().get_queryset(*args, **kwargs)
+    #     queryset = MailingSrv.objects.filter(owner=self.request.user)
+    #     return queryset
 
 
 class MailingSrvCreateView(BaseContextMixin, CreateView):
@@ -111,10 +99,9 @@ class MailingSrvCreateView(BaseContextMixin, CreateView):
         return reverse('app_mailing:mailings_list')
 
 
-class MailingSrvUpdateView(MyPermissionRequiredMixin, BaseContextMixin, UpdateView):
+class MailingSrvUpdateView(UserPassesTestMixin, BaseContextMixin, UpdateView):
     model = MailingSrv
     form_class = MailingSrvForm
-    permission_required = 'app_mailing.change_mailingsrv'
 
     extra_context = {
         'title': 'Редактирование рассылки',
@@ -125,6 +112,25 @@ class MailingSrvUpdateView(MyPermissionRequiredMixin, BaseContextMixin, UpdateVi
         kwargs = super().get_form_kwargs()
         kwargs.update({'request': self.request})
         return kwargs
+
+    def get_success_url(self):
+        return reverse('app_mailing:mailings_detail', args=[self.object.pk])
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return self.request.user == MailingSrv.objects.get(pk=self.kwargs['pk']).owner
+
+
+class MailingSrvCustomUpdateView(LoginRequiredMixin, PermissionRequiredMixin, BaseContextMixin, UpdateView):
+    model = MailingSrv
+    form_class = MailingSrvCustomForm
+    permission_required = 'app_mailing.set_is_activated'
+
+    extra_context = {
+        'title': 'Редактирование рассылки',
+        'phrases': BaseContextMixin.phrases,
+    }
 
     def get_success_url(self):
         return reverse('app_mailing:mailings_detail', args=[self.object.pk])

@@ -32,12 +32,25 @@
 
 
                 <div class="btn-group">
-                    <a href="{% url 'app_mailing:mailings_delete' object.pk %}" type="button"
-                       class="btn btn-sm btn-outline-primary">Удалить</a>
-                    <a href="{% url 'app_mailing:mailings_update' object.pk %}" type="button"
-                       class="btn btn-sm btn-outline-primary">Редактировать</a>
-                    <a href="{% url 'app_mailing:mailings_list' %}" type="button"
-                       class="btn btn-sm btn-outline-primary">К списку</a>
+
+                    {% if perms.app_mailing.set_is_activated %}
+                        <a href="{% url 'app_mailing:mailings_custom_update' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-primary">Редактировать</a>
+
+                        <a href="{% url 'app_mailing:mailings_list' %}" type="button"
+                           class="btn btn-sm btn-outline-primary">К списку</a>
+                    {% else %}
+
+                        <a href="{% url 'app_mailing:mailings_delete' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-primary">Удалить</a>
+
+                        <a href="{% url 'app_mailing:mailings_update' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-primary">Редактировать</a>
+
+                        <a href="{% url 'app_mailing:mailings_list' %}" type="button"
+                           class="btn btn-sm btn-outline-primary">К списку</a>
+
+                    {% endif %}
                 </div>
             </div>
         </div>

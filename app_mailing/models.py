@@ -80,6 +80,11 @@ class MailingSrv(models.Model):
     class Meta:
         verbose_name = 'параметр рассылки'
         verbose_name_plural = 'параметры рассылок'
+        ordering = ('pk',)
+
+        permissions = [
+            ('set_is_activated', 'переключатель метки активности')
+        ]
 
 
 class Log(models.Model):
