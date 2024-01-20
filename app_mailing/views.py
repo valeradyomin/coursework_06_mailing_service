@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.http import Http404
 from django.shortcuts import render, redirect
 import random
 from django.urls import reverse_lazy, reverse
@@ -13,6 +14,14 @@ from users.models import User
 
 
 # Create your views here.
+
+class OwnerSuperuserMixin:
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise Http404
+        return self.object
+
 
 class BaseContextMixin:
     phrases = [
@@ -211,7 +220,7 @@ class MailCreateView(BaseContextMixin, CreateView):
         return super().form_valid(form)
 
 
-class MailUpdateView(BaseContextMixin, UpdateView):
+class MailUpdateView(OwnerSuperuserMixin, BaseContextMixin, UpdateView):
     model = Mail
     form_class = MailForm
     extra_context = {
@@ -228,7 +237,7 @@ class MailUpdateView(BaseContextMixin, UpdateView):
         return reverse('app_mailing:mail_detail', args=[self.kwargs.get('pk')])
 
 
-class MailDetailView(BaseContextMixin, DetailView):
+class MailDetailView(OwnerSuperuserMixin, BaseContextMixin, DetailView):
     model = Mail
     extra_context = {
         'title': 'Просмотр письма',
@@ -236,7 +245,7 @@ class MailDetailView(BaseContextMixin, DetailView):
     }
 
 
-class MailDeleteView(BaseContextMixin, DeleteView):
+class MailDeleteView(OwnerSuperuserMixin, BaseContextMixin, DeleteView):
     model = Mail
     success_url = reverse_lazy('app_mailing:mail_list')
     extra_context = {
@@ -278,7 +287,7 @@ class ClientCreateView(BaseContextMixin, CreateView):
         return super().form_valid(form)
 
 
-class ClientUpdateView(BaseContextMixin, UpdateView):
+class ClientUpdateView(OwnerSuperuserMixin, BaseContextMixin, UpdateView):
     model = Client
     form_class = ClientForm
     extra_context = {
@@ -290,7 +299,7 @@ class ClientUpdateView(BaseContextMixin, UpdateView):
         return reverse('app_mailing:client_detail', args=[self.kwargs.get('pk')])
 
 
-class ClientDetailView(BaseContextMixin, DetailView):
+class ClientDetailView(OwnerSuperuserMixin, BaseContextMixin, DetailView):
     model = Client
     extra_context = {
         'title': 'Просмотр клиента',
@@ -298,7 +307,7 @@ class ClientDetailView(BaseContextMixin, DetailView):
     }
 
 
-class ClientDeleteView(BaseContextMixin, DeleteView):
+class ClientDeleteView(OwnerSuperuserMixin, BaseContextMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('app_mailing:client_list')
     extra_context = {
