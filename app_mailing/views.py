@@ -52,7 +52,10 @@ class MainPage(BaseContextMixin, TemplateView):
         context['finished_mailings_count'] = MailingSrv.objects.filter(status='завершена').count()
         context['active_mailings_count'] = MailingSrv.objects.filter(is_activated=True).count()
         context['unique_clients_count'] = Client.objects.count()
+        context['group_users_count'] = User.objects.filter(groups__isnull=False).count()
         context['unique_users_count'] = User.objects.count()
+        context['users_count'] = User.objects.filter(groups__isnull=True, is_superuser=False).count()
+        context['admin_users_count'] = User.objects.filter(is_superuser=True).count()
 
         blogpost_list = list(Blogpost.objects.all())
         random.shuffle(blogpost_list)

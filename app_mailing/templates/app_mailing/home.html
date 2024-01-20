@@ -75,13 +75,23 @@
                             <div class="ms-2 me-auto">
                                 <small class="text-body-secondary">Количество пользователей:</small>
                                 <span class="badge bg-primary rounded-pill">{{ unique_users_count }}</span>
+                                <hr class="my-1 "> <!-- Горизонтальный разделитель -->
+                                <small class="text-body-secondary">Количество администраторов:</small>
+                                <span class="badge bg-primary rounded-pill">{{ admin_users_count }}</span>
+                                <hr class="my-1 "> <!-- Горизонтальный разделитель -->
+                                <small class="text-body-secondary">Количество модераторов:</small>
+                                <span class="badge bg-primary rounded-pill">{{ group_users_count }}</span>
+                                <hr class="my-1 "> <!-- Горизонтальный разделитель -->
+                                <small class="text-body-secondary">Количество пользователей-клиентов:</small>
+                                <span class="badge bg-primary rounded-pill">{{ users_count }}</span>
+
                             </div>
                         </li>
                     </ol>
                 </div>
             </div>
             <div class="card-footer">
-                {% if user.is_authenticated %}
+                {% if user.is_superuser or not user.groups.exists %}
                     {% if user.is_authenticated %}
                         <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'users:register' %}">Зарегистрироваться</a>
                     {% endif %}
