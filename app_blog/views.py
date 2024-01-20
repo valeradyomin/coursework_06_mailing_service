@@ -5,6 +5,7 @@ from django.urls import reverse_lazy, reverse
 
 from app_blog.forms import BlogpostForm
 from app_blog.models import Blogpost
+from app_blog.services import get_cache_blogposts
 
 from app_mailing.views import BaseContextMixin
 
@@ -23,6 +24,12 @@ class BlogpostListView(BaseContextMixin, ListView):
         if not self.request.user.is_staff and not self.request.user.is_superuser:
             queryset = queryset.filter(is_published=True)
         return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['object_list'] = get_cache_blogposts()
+
+        return context_data
 
 
 class BlogpostCreateView(PermissionRequiredMixin, BaseContextMixin, CreateView):
