@@ -29,13 +29,14 @@
             <div class="card-footer">
                 <div class="d-flex w-100 justify-content-between">
                     <small class="text-body-secondary">Дата публикации: {{ object.date_create }}</small>
-                    <small class="text-body-secondary">Добавил пользователь: {{ user.email }}</small>
                 </div>
                 <div class="btn-group">
                 <a href="{% url 'app_blog:post_list' %}" class="btn btn-sm btn-outline-primary">К списку</a>
-                <a href="{% url 'app_blog:post_update' object.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
-                <a href="{% url 'app_blog:post_delete' object.pk %}"
-                   class="btn btn-sm btn-outline-primary">Удалить</a>
+                {% if user.is_superuser or user.groups.exists %}
+                    <a href="{% url 'app_blog:post_update' object.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                    <a href="{% url 'app_blog:post_delete' object.pk %}"
+                       class="btn btn-sm btn-outline-primary">Удалить</a>
+                {% endif %}
             </div>
             </div>
         </div>

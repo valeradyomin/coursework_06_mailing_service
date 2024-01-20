@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy, reverse
 
@@ -17,20 +18,30 @@ class BlogpostListView(BaseContextMixin, ListView):
         'title': 'Публикации'
     }
 
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(is_published=True)
+    #     return queryset
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(is_published=True)
+        if not self.request.user.is_staff and not self.request.user.is_superuser:
+            queryset = queryset.filter(is_published=True)
         return queryset
 
 
-class BlogpostCreateView(BaseContextMixin, CreateView):
+class BlogpostCreateView(PermissionRequiredMixin, BaseContextMixin, CreateView):
     model = Blogpost
     form_class = BlogpostForm
     success_url = reverse_lazy('app_blog:post_list')
+    permission_required = 'app_blog.add_blogpost'
 
     extra_context = {
         'title': 'Создание публикации'
     }
+
+    def handle_no_permission(self):
+        return redirect('app_mailing:access_denied')
 
 
 class BlogpostDetailView(BaseContextMixin, DetailView):
@@ -47,10 +58,11 @@ class BlogpostDetailView(BaseContextMixin, DetailView):
         return self.object
 
 
-class BlogpostUpdateView(BaseContextMixin, UpdateView):
+class BlogpostUpdateView(PermissionRequiredMixin, BaseContextMixin, UpdateView):
     model = Blogpost
     form_class = BlogpostForm
     # success_url = reverse_lazy('app_blog:post_view')
+    permission_required = 'app_blog.change_blogpost'
 
     extra_context = {
         'title': 'Редакция публикации'
@@ -59,11 +71,25 @@ class BlogpostUpdateView(BaseContextMixin, UpdateView):
     def get_success_url(self):
         return reverse('app_blog:post_view', args=[self.object.pk])
 
+    def handle_no_permission(self):
+        return redirect('app_mailing:access_denied')
 
-class BlogpostDeleteView(BaseContextMixin, DeleteView):
+
+class BlogpostDeleteView(PermissionRequiredMixin, BaseContextMixin, DeleteView):
     model = Blogpost
     success_url = reverse_lazy('app_blog:post_list')
+    permission_required = 'app_blog.delete_blogpost'
 
     extra_context = {
         'title': 'Удаление публикации'
     }
+
+    def handle_no_permission(self):
+        return redirect('app_mailing:access_denied')
+
+
+def custom_permission_denied(request):
+    context = {
+        'logged_in_user_email': request.user.email if request.user.is_authenticated else None
+    }
+    return render(request, 'app_mailing/access_denied.html', context=context)

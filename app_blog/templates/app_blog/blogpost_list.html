@@ -33,7 +33,6 @@
             <div class="card-footer">
                 <div class="d-flex w-100 justify-content-between">
                     <small class="text-body-secondary">Дата публикации: {{ object.date_create }}</small>
-                    <small class="text-body-secondary">Добавил пользователь: {{ user.email }}</small>
                 </div>
                 <div class="btn-group">
                 <a href="{% url 'app_blog:post_view' object.pk %}" class="btn btn-sm btn-outline-primary">Просмотр записи</a>

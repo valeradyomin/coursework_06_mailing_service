@@ -1,5 +1,6 @@
 from django.urls import path
 
+from app_blog.views import custom_permission_denied
 from app_mailing.apps import AppMailingConfig
 from app_mailing.views import MainPage, MailingSrvListView, MailingSrvCreateView, MailingSrvUpdateView, \
     MailingSrvDetailView, MailingSrvDeleteView, MailListView, MailCreateView, MailUpdateView, MailDetailView, \
@@ -30,4 +31,5 @@ urlpatterns = [
     path('log_list/', LogListView.as_view(), name='log_list'),
     path('log_detail/<int:pk>/', LogDetailView.as_view(), name='log_detail'),
     path('log_delete/<int:pk>/', LogDeleteView.as_view(), name='log_delete'),
+    path('access_denied/', custom_permission_denied, name='access_denied'),
 ]

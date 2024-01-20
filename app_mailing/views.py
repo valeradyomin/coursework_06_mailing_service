@@ -66,7 +66,7 @@ class MainPage(BaseContextMixin, TemplateView):
         context['users_count'] = User.objects.filter(groups__isnull=True, is_superuser=False).count()
         context['admin_users_count'] = User.objects.filter(is_superuser=True).count()
 
-        blogpost_list = list(Blogpost.objects.all())
+        blogpost_list = list(Blogpost.objects.filter(is_published=True))
         random.shuffle(blogpost_list)
         context['blogpost_list'] = blogpost_list[:3]
 
