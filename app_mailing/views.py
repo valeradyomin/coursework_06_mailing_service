@@ -50,6 +50,7 @@ class MainPage(BaseContextMixin, TemplateView):
         context['created_mailings_count'] = MailingSrv.objects.filter(status='создана').count()
         context['processing_mailings_count'] = MailingSrv.objects.filter(status='запущена').count()
         context['finished_mailings_count'] = MailingSrv.objects.filter(status='завершена').count()
+        context['active_mailings_count'] = MailingSrv.objects.filter(is_activated=True).count()
         context['unique_clients_count'] = Client.objects.count()
         context['unique_users_count'] = User.objects.count()
 
