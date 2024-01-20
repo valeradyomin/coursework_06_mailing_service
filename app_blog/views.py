@@ -18,11 +18,6 @@ class BlogpostListView(BaseContextMixin, ListView):
         'title': 'Публикации'
     }
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     queryset = queryset.filter(is_published=True)
-    #     return queryset
-
     def get_queryset(self):
         queryset = super().get_queryset()
         if not self.request.user.is_staff and not self.request.user.is_superuser:
