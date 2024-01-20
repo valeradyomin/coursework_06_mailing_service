@@ -28,3 +28,8 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+        ordering = ('pk',)
+
+        permissions = [
+            ('set_is_activated', 'переключатель метки активности')
+        ]

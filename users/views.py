@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -12,7 +13,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DetailView, DeleteView
 
 from app_mailing.views import BaseContextMixin
-from users.forms import LoginViewForm, UserRegisterForm, UserUpdateForm, UserPasswordForm
+from users.forms import LoginViewForm, UserRegisterForm, UserUpdateForm, UserPasswordForm, UserUpdateCustomForm
 from users.models import User
 
 
@@ -91,6 +92,20 @@ class UserUpdateView(BaseContextMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     # success_url = reverse_lazy('users:user_list')
+
+    extra_context = {
+        'title': 'Редактирование пользователя',
+        'phrases': BaseContextMixin.phrases,
+    }
+
+    def get_success_url(self):
+        return reverse('users:user_detail', args=[self.kwargs.get('pk')])
+
+
+class UserCustomUpdateView(PermissionRequiredMixin, BaseContextMixin, UpdateView):
+    model = User
+    form_class = UserUpdateCustomForm
+    permission_required = 'users.set_is_activated'
 
     extra_context = {
         'title': 'Редактирование пользователя',

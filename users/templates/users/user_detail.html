@@ -17,15 +17,19 @@
                     <li>Фамилия пользователя: {{ object.last_name|default:"не указана" }}</li>
                     <li>Почта пользователя: {{ object.email|default:"не указана" }}</li>
                     <li>Телефон пользователя: {{ object.phone|default:"не указан" }}</li>
-                    <li>Метка активности: {{ object.is_active|default:"не указан" }}</li>
                 </ul>
                 <div class="btn-group">
+                    {% if perms.users.set_is_activated %}
+                        <a href="{% url 'users:user_custom_update' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-primary">Редактировать</a>
+                        <a href="{% url 'users:user_list' %}" type="button"
+                       class="btn btn-sm btn-outline-primary">К списку</a>
+                    {% else %}
                     <a href="{% url 'users:user_delete' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Удалить</a>
                     <a href="{% url 'users:user_update' object.pk %}" type="button"
                        class="btn btn-sm btn-outline-primary">Редактировать</a>
-                    <a href="{% url 'users:user_list' %}" type="button"
-                       class="btn btn-sm btn-outline-primary">К списку</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

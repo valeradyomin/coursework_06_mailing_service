@@ -31,8 +31,22 @@ class UserUpdateForm(StyleFormMiXin, UserChangeForm):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone', 'avatar', 'password')
+        widgets = {
+            'password': forms.HiddenInput(),
+        }
 
     password = forms.CharField(label='reset', max_length=256, widget=forms.HiddenInput())
+
+
+class UserUpdateCustomForm(StyleFormMiXin, UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('is_active',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['password'].widget = forms.HiddenInput()
 
 
 class UserPasswordForm(StyleFormMiXin, forms.Form):
