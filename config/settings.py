@@ -18,7 +18,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -28,8 +27,42 @@ SECRET_KEY = 'django-insecure-=-2#vgt2y(aixq+2o87@0jnxt34usy_dv0nk5%v*vex_&bg-um
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*', 'https://****-88-135-4-188.ngrok-free.app']
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://*',
+    'https://*',
+    'a871-88-135-4-188.ngrok-free.app',
+    'http://localhost:8000',
+    'https://a871-88-135-4-188.ngrok-free.app/',
+]
+
+ALLOWED_HOSTS = [
+    'http://*',
+    'https://*',
+    '127.0.0.1:8000',
+    '127.0.0.1',
+    'http://127.0.0.1:8000/',
+    'a871-88-135-4-188.ngrok-free.app',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://*',
+    'https://*',
+    'a871-88-135-4-188.ngrok-free.app',
+    'http://localhost:8000',
+    'https://a871-88-135-4-188.ngrok-free.app/',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://*',
+    'https://*',
+    'a871-88-135-4-188.ngrok-free.app',
+    'http://localhost:8000',
+    'https://a871-88-135-4-188.ngrok-free.app/',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -40,6 +73,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 
     'app_mailing',
     'users',
@@ -52,6 +86,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 
     # 'users.middleware.LoggedInUserMiddleware',
@@ -81,7 +116,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -96,7 +130,6 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -116,7 +149,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -126,11 +158,9 @@ LANGUAGE_CODE = 'ru-ru'
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Europe/Moscow'
 
-
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -140,7 +170,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -168,14 +197,13 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 
-
 CACHE_ENABLED = os.getenv('CACHE_ENABLED') == 'True'
 if CACHE_ENABLED:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
             "LOCATION": os.getenv('CACHE_LOCATION'),
-            "TIMEOUT": 300  # Ручная регулировка времени жизни кеша в секундах, по умолчанию 300
+            "TIMEOUT": 300
         }
     }
 
