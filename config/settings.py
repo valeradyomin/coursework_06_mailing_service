@@ -32,8 +32,7 @@ DEBUG = True
 CSRF_TRUSTED_ORIGINS = [
     'http://*',
     'https://*',
-    'a871-88-135-4-188.ngrok-free.app',
-    'http://localhost:8000',
+    'http://127.0.0.1:8000',
     'https://a871-88-135-4-188.ngrok-free.app/',
 ]
 
@@ -45,16 +44,14 @@ ALLOWED_HOSTS = [
 CORS_ORIGIN_WHITELIST = [
     'http://*',
     'https://*',
-    'a871-88-135-4-188.ngrok-free.app',
-    'http://localhost:8000',
+    'http://127.0.0.1:8000',
     'https://a871-88-135-4-188.ngrok-free.app/',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://*',
     'https://*',
-    'a871-88-135-4-188.ngrok-free.app',
-    'http://localhost:8000',
+    'http://127.0.0.1:8000',
     'https://a871-88-135-4-188.ngrok-free.app/',
 ]
 
